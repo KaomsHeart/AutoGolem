@@ -1,0 +1,9 @@
+Owner: KaomsHeart
+Name: AutoGolem
+Repository
+
+Ignore:
+src
+.gitignore
+Readme.md
+LICENSE
