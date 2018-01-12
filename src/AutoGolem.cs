@@ -79,16 +79,16 @@ namespace AutoGolem
             if (playerLife == null || isTown)
                 return;
 
-            List<int> golems = data.LocalPlayer.GetComponent<Actor>().Minions;
-
-            int countChaosGolem = 0;
-            int countFireGolem = 0;
-            int countIceGolem = 0;
-            int countLightningGolem = 0;
-            int countStoneGolem = 0;
-
             try
             {
+                List<int> golems = data.LocalPlayer.GetComponent<Actor>().Minions;
+
+                int countChaosGolem = 0;
+                int countFireGolem = 0;
+                int countIceGolem = 0;
+                int countLightningGolem = 0;
+                int countStoneGolem = 0;
+
                 foreach (var golemId in golems)
                 {
                     if (data.EntityList.EntitiesAsDictionary.ContainsKey(golemId))
@@ -132,7 +132,7 @@ namespace AutoGolem
             catch (Exception)
             {
             }
-            
+
         }
     }
 
