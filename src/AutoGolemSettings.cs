@@ -36,6 +36,9 @@ namespace AutoGolem
             StoneGolemKeyPressed = Keys.T;
             StoneGolemConnectedSkill = new RangeNode<int>(1, 1, 8);
             StoneGolemMax = new RangeNode<int>(1, 1, 10);
+
+            DontCastOnNearbyMonster = false;
+            NearbyMonsterRange = new RangeNode<int>(500, 50, 3000);
         }
 
         //Menu
@@ -83,5 +86,12 @@ namespace AutoGolem
         public RangeNode<int> StoneGolemConnectedSkill { get; set; }
         [Menu("Max Golems", "Maximum number of golems to summon for this type", 52, 5)]
         public RangeNode<int> StoneGolemMax { get; set; }
+
+        [Menu("Misc", 6)]
+        public EmptyNode MiscSettings { get; set; }
+        [Menu("Nearby monsters", "Don't cast on nearby monsters", 60, 6)]
+        public ToggleNode DontCastOnNearbyMonster { get; set; }
+        [Menu("Range", 600, 60)]
+        public RangeNode<int> NearbyMonsterRange { get; set; }
     }
 }
