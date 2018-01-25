@@ -97,8 +97,9 @@ namespace AutoGolem
                     stopwatch.Stop();
                 }
             }
-            catch (Exception)
+            catch (Exception err)
             {
+                BasePlugin.LogError(err, 5);
             }
         }
 
@@ -232,8 +233,9 @@ namespace AutoGolem
                 }
 
             }
-            catch (Exception)
+            catch (Exception err)
             {
+                BasePlugin.LogError(err, 5);
             }
 
         }
