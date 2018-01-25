@@ -145,6 +145,9 @@ namespace AutoGolem
 
         private void GolemMain()
         {
+            if (isTown)
+                return;
+
             if (GameController == null || GameController.Window == null || GameController.Game.IngameState.Data.LocalPlayer == null || GameController.Game.IngameState.Data.LocalPlayer.Address == 0x00)
                 return;
 
@@ -155,7 +158,7 @@ namespace AutoGolem
                 return;
 
             var playerLife = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>();
-            if (playerLife == null || isTown)
+            if (playerLife == null)
                 return;
 
             try
