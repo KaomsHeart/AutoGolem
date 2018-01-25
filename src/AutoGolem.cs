@@ -15,6 +15,7 @@ namespace AutoGolem
 {
     internal class AutoGolem : BaseSettingsPlugin<AutoGolemSettings>
     {
+        private int targetNumber;
         private bool isTown;
         private KeyboardHelper keyboard;
         private Stopwatch stopwatch = new Stopwatch();
@@ -84,6 +85,28 @@ namespace AutoGolem
                     isTown = GameController.Area.CurrentArea.IsTown;
 
                     keyboard = new KeyboardHelper(GameController);
+                    targetNumber = 0;
+
+                    if (Settings.ChaosGolem.Value)
+                    {
+                        targetNumber += Settings.ChaosGolemMax.Value;
+                    }
+                    if (Settings.FireGolem.Value)
+                    {
+                        targetNumber += Settings.FireGolemMax.Value;
+                    }
+                    if (Settings.IceGolem.Value)
+                    {
+                        targetNumber += Settings.IceGolemMax.Value;
+                    }
+                    if (Settings.LightningGolem.Value)
+                    {
+                        targetNumber += Settings.LightningGolemMax.Value;
+                    }
+                    if (Settings.StoneGolem.Value)
+                    {
+                        targetNumber += Settings.StoneGolemMax.Value;
+                    }
 
                     stopwatch.Reset();
 
@@ -164,6 +187,13 @@ namespace AutoGolem
 
             try
             {
+                List<int> golems = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Actor>().Minions;
+
+                // Don't cast if number of golems is superior or equal to the targetNumber
+                if (golems.Count >= targetNumber)
+                {
+                    return;
+                }
 
                 if (Settings.DontCastOnNearbyMonster.Value)
                 {
@@ -184,8 +214,6 @@ namespace AutoGolem
                 }
 
                 IngameUIElements ingameUiElements = GameController.Game.IngameState.IngameUi;
-                List<int> golems = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Actor>().Minions;
-
                 int countChaosGolem = 0;
                 int countFireGolem = 0;
                 int countIceGolem = 0;
