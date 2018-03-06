@@ -180,7 +180,7 @@ namespace AutoGolem
                 }
 
                 IngameUIElements ingameUiElements = GameController.Game.IngameState.IngameUi;
-                List<int> golems = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Actor>().Minions;
+                List<DeployedObject> deployedObjects = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Actor>().DeployedObjects;
 
                 int countChaosGolem = 0;
                 int countFireGolem = 0;
@@ -188,11 +188,14 @@ namespace AutoGolem
                 int countLightningGolem = 0;
                 int countStoneGolem = 0;
 
-                foreach (var golemId in golems)
+                ActorSkill skillLightningGolem = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Actor>().ActorSkills.Find(x => x.Name == "SummonLightningGolem");
+
+                foreach (DeployedObject deployedObject in deployedObjects)
                 {
-                    if (GameController.Game.IngameState.Data.EntityList.EntitiesAsDictionary.ContainsKey(golemId))
+
+                    if (GameController.Game.IngameState.Data.EntityList.EntitiesAsDictionary.ContainsKey(deployedObject.SkillId))
                     {
-                        var golemPathString = GameController.Game.IngameState.Data.EntityList.EntitiesAsDictionary[golemId].Path;
+                        var golemPathString = GameController.Game.IngameState.Data.EntityList.EntitiesAsDictionary[deployedObject.SkillId].Path;
 
                         if (golemPathString.Contains("ChaosElemental"))
                             countChaosGolem++;
@@ -229,8 +232,9 @@ namespace AutoGolem
                 }
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                LogError(ex.Message, 3);
             }
 
         }
