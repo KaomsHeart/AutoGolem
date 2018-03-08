@@ -193,9 +193,9 @@ namespace AutoGolem
                 foreach (DeployedObject deployedObject in deployedObjects)
                 {
 
-                    if (GameController.Game.IngameState.Data.EntityList.EntitiesAsDictionary.ContainsKey(deployedObject.SkillId))
+                    if (GameController.Game.IngameState.Data.EntityList.EntitiesAsDictionary.ContainsKey(deployedObject.ObjectKey))
                     {
-                        var golemPathString = GameController.Game.IngameState.Data.EntityList.EntitiesAsDictionary[deployedObject.SkillId].Path;
+                        var golemPathString = GameController.Game.IngameState.Data.EntityList.EntitiesAsDictionary[deployedObject.ObjectKey].Path;
 
                         if (golemPathString.Contains("ChaosElemental"))
                             countChaosGolem++;
