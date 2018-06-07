@@ -39,6 +39,8 @@ namespace AutoGolem
 
             DontCastOnNearbyMonster = false;
             NearbyMonsterRange = new RangeNode<int>(500, 50, 3000);
+
+            UseAlternativeDetectionMethod = true;
         }
 
         //Menu
@@ -93,5 +95,7 @@ namespace AutoGolem
         public ToggleNode DontCastOnNearbyMonster { get; set; }
         [Menu("Range", 600, 60)]
         public RangeNode<int> NearbyMonsterRange { get; set; }
+        [Menu("Use alternative detection method", "Switch if golem detection doesn't work", 61, 6)]
+        public ToggleNode UseAlternativeDetectionMethod { get; set; }
     }
 }
