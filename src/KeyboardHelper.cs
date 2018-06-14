@@ -3,6 +3,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows.Forms;
+using Stashie.Utils;
 
 namespace AutoGolem
 {
@@ -34,18 +35,9 @@ namespace AutoGolem
         private static extern short GetKeyState(int nVirtKey);
         public void KeyDown(Keys key)
         {
-            SendMessage(_gameHandle.Window.Process.MainWindowHandle, 0x100, (int)key, 0);
+            Keyboard.KeyPress(key);
         }
-
-        public static bool IsKeyDown(int nVirtKey)
-        {
-            return GetKeyState(nVirtKey) < 0;
-        }
-
-        public void KeyUp(Keys key)
-        {
-            SendMessage(_gameHandle.Window.Process.MainWindowHandle, 0x101, (int)key, 0);
-        }
+        
         public bool KeyPressRelease(Keys key)
         {
             KeyDown(key);
