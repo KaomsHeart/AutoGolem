@@ -40,7 +40,7 @@ namespace AutoGolem
             DontCastOnNearbyMonster = false;
             NearbyMonsterRange = new RangeNode<int>(500, 50, 3000);
 
-            UseAlternativeDetectionMethod = true;
+            UseAlternativeDetectionMethod = false;
         }
 
         //Menu
