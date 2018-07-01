@@ -181,8 +181,6 @@ namespace AutoGolem
                     }
                 }
 
-                IngameUIElements ingameUiElements = GameController.Game.IngameState.IngameUi;
-
                 int countChaosGolem = 0;
                 int countFireGolem = 0;
                 int countIceGolem = 0;
@@ -193,86 +191,91 @@ namespace AutoGolem
                 {
                     List<Buff> buffs = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>().Buffs;
 
-                    foreach (Buff buff in buffs)
+                    Buff chaosGolem = buffs.FirstOrDefault(x => x.Name.Equals("chaos_elemental_buff"));
+                    if (chaosGolem != null)
                     {
-                        if (buff.Name.Equals("chaos_elemental_buff"))
-                            countChaosGolem++;
-                        if (buff.Name.Equals("fire_elemental_buff"))
-                            countFireGolem++;
-                        if (buff.Name.Equals("ice_elemental_buff"))
-                            countIceGolem++;
-                        if (buff.Name.Equals("lightning_elemental_buff"))
-                            countLightningGolem++;
-                        if (buff.Name.Equals("rock_golem_buff"))
-                            countStoneGolem++;
+                        countChaosGolem = chaosGolem.Charges;
                     }
+
+                    Buff fireGolem = buffs.FirstOrDefault(x => x.Name.Equals("fire_elemental_buff"));
+                    if (fireGolem != null)
+                    {
+                        countFireGolem = fireGolem.Charges;
+                    }
+
+                    Buff iceGolem = buffs.FirstOrDefault(x => x.Name.Equals("ice_elemental_buff"));
+                    if (iceGolem != null)
+                    {
+                        countIceGolem = iceGolem.Charges;
+                    }
+
+                    Buff lightningGolem = buffs.FirstOrDefault(x => x.Name.Equals("lightning_elemental_buff"));
+                    if (lightningGolem != null)
+                    {
+                        countLightningGolem = lightningGolem.Charges;
+                    }
+
+                    Buff stoneGolem = buffs.FirstOrDefault(x => x.Name.Equals("rock_golem_buff"));
+                    if (stoneGolem != null)
+                    {
+                        countStoneGolem = stoneGolem.Charges;
+                    }
+                   
                 }
                 else
                 {
                     List<DeployedObject> deployedObjects = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Actor>().DeployedObjects;
 
-                    foreach (DeployedObject deployedObject in deployedObjects)
-                    {
-
-                        if (GameController.Game.IngameState.Data.EntityList.EntitiesAsDictionary.ContainsKey(deployedObject.ObjectKey))
-                        {
-                            var golemPathString = GameController.Game.IngameState.Data.EntityList.EntitiesAsDictionary[deployedObject.ObjectKey].Path;
-
-                            if (golemPathString.Contains("ChaosElemental"))
-                                countChaosGolem++;
-                            if (golemPathString.Contains("FireElemental"))
-                                countFireGolem++;
-                            if (golemPathString.Contains("IceElemental"))
-                                countIceGolem++;
-                            if (golemPathString.Contains("LightningGolem"))
-                                countLightningGolem++;
-                            if (golemPathString.Contains("RockGolem"))
-                                countStoneGolem++;
-                        }
-                    }
+                    countChaosGolem = deployedObjects.Count(x => x.Entity.Path.Contains("ChaosElemental"));
+                    countFireGolem = deployedObjects.Count(x => x.Entity.Path.Contains("FireElemental"));
+                    countIceGolem = deployedObjects.Count(x => x.Entity.Path.Contains("IceElemental"));
+                    countLightningGolem = deployedObjects.Count(x => x.Entity.Path.Contains("LightningGolem"));
+                    countStoneGolem = deployedObjects.Count(x => x.Entity.Path.Contains("RockGolem"));
                 }
+
+                List<ActorSkill> actorSkills = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Actor>().ActorSkills;
 
                 if (Settings.ChaosGolem.Value && countChaosGolem < Settings.ChaosGolemMax.Value)
                 {
-                    ActorSkill skillChaosGolem = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Actor>().ActorSkills.Find(x => x.Name == "SummonChaosGolem");
+                    ActorSkill skillChaosGolem = actorSkills.FirstOrDefault(x => x.Name == "SummonChaosGolem" && x.CanBeUsed && x.SkillSlotIndex.Equals(Settings.ChaosGolemConnectedSkill.Value - 1));
 
-                    if (skillChaosGolem != null && skillChaosGolem.CanBeUsed && skillChaosGolem.SkillSlotIndex.Equals(Settings.ChaosGolemConnectedSkill.Value - 1))
+                    if (skillChaosGolem != null)
                     {
                         keyboard.KeyPressRelease(Settings.ChaosGolemKeyPressed.Value);
                     }
                 }
                 if (Settings.FireGolem.Value && countFireGolem < Settings.FireGolemMax.Value)
                 {
-                    ActorSkill skillFireGolem = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Actor>().ActorSkills.Find(x => x.Name == "SummonFireGolem");
+                    ActorSkill skillFireGolem = actorSkills.FirstOrDefault(x => x.Name == "SummonFireGolem" && x.CanBeUsed && x.SkillSlotIndex.Equals(Settings.FireGolemConnectedSkill.Value - 1));
 
-                    if (skillFireGolem != null && skillFireGolem.CanBeUsed && skillFireGolem.SkillSlotIndex.Equals(Settings.FireGolemConnectedSkill.Value - 1))
+                    if (skillFireGolem != null)
                     {
                         keyboard.KeyPressRelease(Settings.FireGolemKeyPressed.Value);
                     }
                 }
                 if (Settings.IceGolem.Value && countIceGolem < Settings.IceGolemMax.Value)
                 {
-                    ActorSkill skillIceGolem = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Actor>().ActorSkills.Find(x => x.Name == "SummonIceGolem");
+                    ActorSkill skillIceGolem = actorSkills.FirstOrDefault(x => x.Name == "SummonIceGolem" && x.CanBeUsed && x.SkillSlotIndex.Equals(Settings.IceGolemConnectedSkill.Value - 1));
 
-                    if (skillIceGolem != null && skillIceGolem.CanBeUsed && skillIceGolem.SkillSlotIndex.Equals(Settings.IceGolemConnectedSkill.Value - 1))
+                    if (skillIceGolem != null)
                     {
                         keyboard.KeyPressRelease(Settings.IceGolemKeyPressed.Value);
                     }
                 }
                 if (Settings.LightningGolem.Value && countLightningGolem < Settings.LightningGolemMax.Value)
                 {
-                    ActorSkill skillLightningGolem = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Actor>().ActorSkills.Find(x => x.Name == "SummonLightningGolem");
+                    ActorSkill skillLightningGolem = actorSkills.FirstOrDefault(x => x.Name == "SummonLightningGolem" && x.CanBeUsed && x.SkillSlotIndex.Equals(Settings.LightningGolemConnectedSkill.Value - 1));
 
-                    if (skillLightningGolem != null && skillLightningGolem.CanBeUsed && skillLightningGolem.SkillSlotIndex.Equals(Settings.LightningGolemConnectedSkill.Value - 1))
+                    if (skillLightningGolem != null)
                     {
                         keyboard.KeyPressRelease(Settings.LightningGolemKeyPressed.Value);
                     }
                 }
                 if (Settings.StoneGolem.Value && countStoneGolem < Settings.StoneGolemMax.Value)
                 {
-                    ActorSkill skillStoneGolem = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Actor>().ActorSkills.Find(x => x.Name == "SummonRockGolem");
+                    ActorSkill skillStoneGolem = actorSkills.FirstOrDefault(x => x.Name == "SummonRockGolem" && x.CanBeUsed && x.SkillSlotIndex.Equals(Settings.StoneGolemConnectedSkill.Value - 1));
 
-                    if (skillStoneGolem != null && skillStoneGolem.CanBeUsed && skillStoneGolem.SkillSlotIndex.Equals(Settings.StoneGolemConnectedSkill.Value - 1))
+                    if (skillStoneGolem != null)
                     {
                         keyboard.KeyPressRelease(Settings.StoneGolemKeyPressed.Value);
                     }
