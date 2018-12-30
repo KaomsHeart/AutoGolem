@@ -156,7 +156,7 @@ namespace AutoGolem
             if (!GameController.Game.IngameState.Data.LocalPlayer.IsValid)
                 return;
 
-            var playerLife = GameController.Game.IngameState.Data.LocalPlayer.GetComponent<Life>();
+            var playerLife = GameController.Game?.IngameState?.Data?.LocalPlayer?.GetComponent<Life>();
             if (playerLife == null || isTown)
                 return;
 
